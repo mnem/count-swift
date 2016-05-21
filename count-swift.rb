@@ -39,6 +39,6 @@ IPAS.each do |ipa|
 end
 
 # Output some stats
-puts "\nFrom #{IPAS.count} apps, #{swift_count} (#{(Float(swift_count)/IPAS.count*100.0).round}%) contain libswift*.dylib frameworks"
-puts "Swift libs found:"
+puts "\n\nUnique Swift libs found:"
 swift_libs.flatten.uniq.sort.each { |lib| puts "  #{lib}" }
+puts "\nFrom #{IPAS.count} apps, #{swift_count} (#{(Float(swift_count)/IPAS.count*100.0).round}%) contain libswift*.dylib frameworks"
