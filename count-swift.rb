@@ -16,8 +16,8 @@ IPAS=Dir.glob ITUNES_APP_ROOT
 
 # Check all the ipas for evidence of embedded swift libs
 puts "Scaning #{IPAS.count} IPAs in #{ITUNES_APP_ROOT}"
-swift_count = 0
 swift_libs = []
+swift_ipas = []
 IPAS.each do |ipa|
 	# Yep, we're still processing, look at the pretty dots!
 	print '.'
@@ -26,7 +26,7 @@ IPAS.each do |ipa|
 	libs = `unzip -l \"#{ipa}\" | grep -i 'libswift.*\.dylib'`
 	if libs.length > 0
 		# Has some swift
-		swift_count += 1
+		swift_ipas << ipa
 
 		# Store lib names in a hideously inefficient way
 		libs = libs.split "\n"
@@ -41,4 +41,6 @@ end
 # Output some stats
 puts "\n\nUnique Swift libs found:"
 swift_libs.flatten.uniq.sort.each { |lib| puts "  #{lib}" }
-puts "\nFrom #{IPAS.count} apps, #{swift_count} (#{(Float(swift_count)/IPAS.count*100.0).round}%) contain libswift*.dylib frameworks"
+puts "\nIPAs containing Swift libs:"
+swift_ipas.sort.each { |ipa| puts "  #{File.basename(ipa, '.ipa')}" }
+puts "\nFrom #{IPAS.count} apps, #{swift_ipas.count} (#{(Float(swift_ipas.count)/IPAS.count*100.0).round}%) contain libswift*.dylib frameworks"
